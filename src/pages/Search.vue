@@ -7,16 +7,17 @@
           <input type="text" v-model="searchItem" />
           <button type="submit">Search</button>
         </form>
-        {{ searchItem }}
+        With {{ searchItem }} total {{ serchResult.length }} results found.
         <hr />
-        <div v-for="post in posts" :key="post.id">
-          <h2>{{ post.product_name }}</h2>
-          <h5>Title description, Dec 7, 2020</h5>
-          <div class="fakeimg">Fake Image</div>
-          <p>
-            {{ post.product_details }}
-          </p>
-        </div>
+        <ol>
+          <li v-for="item in serchResult" :key="item.id">
+            <h2>{{ item.product_name }}</h2>
+            <h5>Title description, Dec 7, 2020</h5>
+            <p>
+              {{ item.product_details }}
+            </p>
+          </li>
+        </ol>
       </div>
     </div>
   </div>
@@ -36,6 +37,7 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/search/", { item: this.searchItem })
         .then((response) => {
+          this.serchResult = response.data;
           console.log(response.data);
         });
     },
